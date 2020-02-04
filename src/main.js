@@ -1,8 +1,8 @@
-var utils = require('./utils.js');
-var consts = require('./consts.js');
-var shapes = require('./shapes.js');
-var views = require('./views.js');
-var canvas = require('./canvas.js');
+let utils = require('./utils.js');
+let consts = require('./consts.js');
+let shapes = require('./shapes.js');
+let views = require('./views.js');
+let canvas = require('./canvas.js');
 
 
 
@@ -10,12 +10,12 @@ var canvas = require('./canvas.js');
 /**
 	Init game matrix
 */
-var initMatrix = function(rowCount,columnCount){
-	var result = [];
-	for (var i = 0; i<rowCount;i++){
-		var row = [];
+let initMatrix = function(rowCount,columnCount){
+	let result = [];
+	for (let i = 0; i<rowCount;i++){
+		let row = [];
 		result.push(row);
-		for(var j = 0;j<columnCount;j++){
+		for(let j = 0;j<columnCount;j++){
 			row.push(0);
 		}
 	}
@@ -26,9 +26,9 @@ var initMatrix = function(rowCount,columnCount){
 /**
   Clear game matrix
 */
-var clearMatrix = function(matrix){
-	for(var i = 0;i<matrix.length;i++){
-		for(var j = 0;j<matrix[i].length;j++){
+let clearMatrix = function(matrix){
+	for(let i = 0;i<matrix.length;i++){
+		for(let j = 0;j<matrix[i].length;j++){
 			matrix[i][j] = 0;
 		}
 	}
@@ -39,12 +39,12 @@ var clearMatrix = function(matrix){
 	Check all full rows in game matrix
 	return rows number array. eg: [18,19];
 */
-var checkFullRows = function(matrix){
-	var rowNumbers = [];
-  	for(var i = 0;i<matrix.length;i++){
-  		var row = matrix[i];
-  		var full = true;
-  		for(var j = 0;j<row.length;j++){
+let checkFullRows = function(matrix){
+	let rowNumbers = [];
+  	for(let i = 0;i<matrix.length;i++){
+  		let row = matrix[i];
+  		let full = true;
+  		for(let j = 0;j<row.length;j++){
   			full = full&&row[j]!==0;
   		}
   		if (full){
@@ -59,10 +59,10 @@ var checkFullRows = function(matrix){
 	Remove one row from game matrix. 
 	copy each previous row data to  next row  which row number less than row;
 */
-var removeOneRow = function(matrix,row){
-	var colCount = matrix[0].length;
-	for(var i = row;i>=0;i--){
-		for(var j = 0;j<colCount;j++){
+let removeOneRow = function(matrix,row){
+	let colCount = matrix[0].length;
+	for(let i = row;i>=0;i--){
+		for(let j = 0;j<colCount;j++){
 			if (i>0){
 				matrix[i][j] = matrix[i-1][j];
 			}else{
@@ -74,8 +74,8 @@ var removeOneRow = function(matrix,row){
 /**
 	Remove rows from game matrix by row numbers.
 */
-var removeRows = function(matrix,rows){
-	for(var i in rows){
+let removeRows = function(matrix,rows){
+	for(let i in rows){
 		removeOneRow(matrix,rows[i]);
 	}
 };
@@ -83,9 +83,9 @@ var removeRows = function(matrix,rows){
 /**
 	Check game data to determin wether the  game is over
 */
-var checkGameOver = function(matrix){
-	var firstRow = matrix[0];
-	for(var i = 0;i<firstRow.length;i++){
+let checkGameOver = function(matrix){
+	let firstRow = matrix[0];
+	for(let i = 0;i<firstRow.length;i++){
 		if (firstRow[i]!==0){
 			return true;
 		};
@@ -97,7 +97,7 @@ var checkGameOver = function(matrix){
 /**
 	Calculate  the extra rewards add to the score
 */
-var calcRewards = function(rows){
+let calcRewards = function(rows){
 	if (rows&&rows.length>1){
 		return Math.pow(2,rows.length - 1)*100;	
 	}
@@ -107,7 +107,7 @@ var calcRewards = function(rows){
 /**
 	Calculate game score
 */
-var calcScore = function(rows){
+let calcScore = function(rows){
 	if (rows&&rows.length){
 		return rows.length*100;
 	}
@@ -117,13 +117,13 @@ var calcScore = function(rows){
 /**
 	Calculate time interval by level, the higher the level,the faster shape moves
 */
-var calcIntervalByLevel = function(level){
+let calcIntervalByLevel = function(level){
 	return consts.DEFAULT_INTERVAL  - (level-1)*60;
 };
 
 
 // Default max scene size
-var defaults = {
+let defaults = {
 	maxHeight:700,
 	maxWidth:600
 };
@@ -140,7 +140,7 @@ Tetris.prototype = {
 
 	init:function(options){
 		
-		var cfg = this.config = utils.extend(options,defaults);
+		let cfg = this.config = utils.extend(options,defaults);
 		this.interval = consts.DEFAULT_INTERVAL;
 		
 		
@@ -190,10 +190,10 @@ Tetris.prototype = {
 	// All key event handlers
 	_keydownHandler:function(e){
 		
-		var matrix = this.matrix;
+		let matrix = this.matrix;
 
 		if(!e) { 
-			var e = window.event;
+			let e = window.event;
 		}
 		if (this.isGameOver||!this.shape){
 			return;
@@ -274,12 +274,12 @@ Tetris.prototype = {
 	},
 	// Check and update game data
 	_check:function(){
-		var rows = checkFullRows(this.matrix);
+		let rows = checkFullRows(this.matrix);
 		if (rows.length){
 			removeRows(this.matrix,rows);
 			
-			var score = calcScore(rows);
-			var reward = calcRewards(rows);
+			let score = calcScore(rows);
+			let reward = calcRewards(rows);
 			this.score += score + reward;
 
 			views.setScore(this.score);
@@ -289,7 +289,7 @@ Tetris.prototype = {
 	},
 	// Check and update game level
 	_checkLevel:function(){
-		var currentTime = new Date().getTime();
+		let currentTime = new Date().getTime();
 		if (currentTime - this.levelTime > consts.LEVEL_INTERVAL){
 			this.level+=1;
 			this.interval = calcIntervalByLevel(this.level);

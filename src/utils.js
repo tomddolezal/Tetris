@@ -1,14 +1,14 @@
 
-var exports = module.exports = {};
+let exports = module.exports = {};
 
-var $ = function(id){
-	return document.getElementById(id);
+let $ = function (id) {
+    return document.getElementById(id);
 };
 
 
 
 //if object is plain object
-var _isPlainObject = function(obj) {
+let _isPlainObject = function (obj) {
 
     if (typeof obj !== 'object') {
         return false;
@@ -26,8 +26,8 @@ var _isPlainObject = function(obj) {
 };
 // this method source code is from jquery 2.0.x
 // merge object's value and return
-var extend = function() {
-    var src, copyIsArray, copy, name, options, clone,
+let extend = function () {
+    let src, copyIsArray, copy, name, options, clone,
         target = arguments[0] || {},
         i = 1,
         length = arguments.length,
@@ -92,16 +92,16 @@ var extend = function() {
 };
 
 
-var proxy = function(fn,context){
-    var args = [].slice.call( arguments, 2 );
-    proxy = function() {
-            return fn.apply( context || this, args.concat( [].slice.call( arguments ) ) );
+let proxy = function (fn, context) {
+    let args = [].slice.call(arguments, 2);
+    proxy = function () {
+        return fn.apply(context || this, args.concat([].slice.call(arguments)));
     };
     return proxy;
 };
 
-var aniFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
-                        window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+let aniFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+    window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 window.requestAnimationFrame = aniFrame;
 
 
